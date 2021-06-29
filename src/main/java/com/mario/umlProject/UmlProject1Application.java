@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.mario.umlProject.domain.Categoria;
 import com.mario.umlProject.domain.Cidade;
+import com.mario.umlProject.domain.Cliente;
+import com.mario.umlProject.domain.Endereco;
 import com.mario.umlProject.domain.Estado;
 import com.mario.umlProject.domain.Produto;
+import com.mario.umlProject.domain.enums.TipoCliente;
 import com.mario.umlProject.repositores.CategoriaRepository;
 import com.mario.umlProject.repositores.CidadeRepository;
+import com.mario.umlProject.repositores.ClienteRepository;
+import com.mario.umlProject.repositores.EnderecoRepository;
 import com.mario.umlProject.repositores.EstadoRepository;
 import com.mario.umlProject.repositores.ProdutoRepository;
 
@@ -30,6 +35,12 @@ public class UmlProject1Application implements CommandLineRunner{
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(UmlProject1Application.class, args);
@@ -70,6 +81,14 @@ public class UmlProject1Application implements CommandLineRunner{
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 		
 		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "2583588522", TipoCliente.PESSOAFISICA);
+		cli1.getTelefone().addAll(Arrays.asList("225648855455", "2558144878"));
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "25668898522", cli1, c1);
+		Endereco e2 = new Endereco(null, "Av. Matos", "105", "Sala 800", "3325215555", cli1, c2);
+		cli1.getEndereco().addAll(Arrays.asList(e1,e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1,e2));
 	}
 
 }
