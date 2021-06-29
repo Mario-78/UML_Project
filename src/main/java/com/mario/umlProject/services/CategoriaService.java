@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mario.umlProject.domain.Categoria;
 import com.mario.umlProject.repositores.CategoriaRepository;
+import com.mario.umlProject.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -17,7 +18,7 @@ public class CategoriaService {
 	
 	public Optional<Categoria> buscar(Integer id) {
 		Optional<Categoria> obj =repo.findById(id);
-		return obj;
+		return Optional.ofNullable(obj.orElseThrow(() -> new ObjectNotFoundException("objeto não encontrado! Id:"+ Categoria.class.getName())));
 		
 	}
 
