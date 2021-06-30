@@ -13,6 +13,7 @@ import com.mario.umlProject.domain.Cidade;
 import com.mario.umlProject.domain.Cliente;
 import com.mario.umlProject.domain.Endereco;
 import com.mario.umlProject.domain.Estado;
+import com.mario.umlProject.domain.ItemPedido;
 import com.mario.umlProject.domain.Pagamento;
 import com.mario.umlProject.domain.PagamentoComBoleto;
 import com.mario.umlProject.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.mario.umlProject.repositores.CidadeRepository;
 import com.mario.umlProject.repositores.ClienteRepository;
 import com.mario.umlProject.repositores.EnderecoRepository;
 import com.mario.umlProject.repositores.EstadoRepository;
+import com.mario.umlProject.repositores.ItemPedidoRepository;
 import com.mario.umlProject.repositores.PagamentoRepository;
 import com.mario.umlProject.repositores.PedidoRepository;
 import com.mario.umlProject.repositores.ProdutoRepository;
@@ -48,7 +50,8 @@ public class UmlProject1Application implements CommandLineRunner{
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
-	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(UmlProject1Application.class, args);
@@ -115,6 +118,20 @@ public class UmlProject1Application implements CommandLineRunner{
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
 		
 		
 	}
